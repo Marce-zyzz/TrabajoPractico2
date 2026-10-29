@@ -1,17 +1,109 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Trabajo Práctico 2 PowerShell</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabajo Práctico PowerShell</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #f2f4f8;
+            color: #222;
+        }
+        h1 { color: #2457a7; text-align: center; }
+        section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 8px 0;
+            font-size: 16px;
+        }
+        button {
+            background: #2457a7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        pre {
+            background: #eee;
+            padding: 12px;
+            overflow-x: auto;
+        }
+        .resultado { font-weight: bold; }
+    </style>
 </head>
 <body>
-    <h1>Trabajo Práctico PowerShell</h1>
-    <h2>Ejercicio 1</h2>
-    <p>Programa que solicita el nombre
-    del usuario y muestra un saludo.</p>
-    <h2>Ejercicio 2</h2>
-    <p>Programa que calcula la paga según
-    las horas trabajadas y el costo por hora.</p>
-    <p>Archivos realizados en PowerShell.</p>
+
+<h1>Trabajo Práctico PowerShell</h1>
+<p>Ejercicios prácticos de programación.</p>
+
+<section>
+    <h2>Ejercicio 1: Saludo al usuario</h2>
+    <p>Ingresá tu nombre:</p>
+    <input type="text" id="nombre" placeholder="Tu nombre">
+    <button onclick="saludar()">Saludar</button>
+    <p class="resultado" id="saludo"></p>
+
+    <h3>Código PowerShell</h3>
+    <pre>$nombre = Read-Host "Ingrese su nombre"
+Write-Host "¡Hola $nombre!"</pre>
+</section>
+
+<section>
+    <h2>Ejercicio 2: Cálculo de la paga</h2>
+    <p>Ingresá las horas trabajadas y el costo por hora.</p>
+    <label>Horas trabajadas:</label><br>
+    <input type="number" id="horas" min="0" step="any"><br>
+    <label>Costo por hora:</label><br>
+    <input type="number" id="costo" min="0" step="any"><br>
+    <button onclick="calcular()">Calcular paga</button>
+    <p class="resultado" id="paga"></p>
+
+    <h3>Código PowerShell</h3>
+    <pre>$horas = [double](Read-Host "Ingrese las horas trabajadas")
+$costo = [double](Read-Host "Ingrese el costo por hora")
+$paga = $horas * $costo
+Write-Host "La paga que le corresponde es: $paga"</pre>
+</section>
+
+<script>
+function saludar() {
+    const nombre = document.getElementById("nombre").value.trim();
+    document.getElementById("saludo").textContent =
+        nombre ? "¡Hola " + nombre + "!" : "Ingresá tu nombre.";
+}
+
+function calcular() {
+    const h = document.getElementById("horas").value;
+    const c = document.getElementById("costo").value;
+    const salida = document.getElementById("paga");
+
+    if (h === "" || c === "" ||
+        !Number.isFinite(Number(h)) ||
+        !Number.isFinite(Number(c)) ||
+        Number(h) < 0 || Number(c) < 0) {
+        salida.textContent = "Ingresá valores válidos.";
+        return;
+    }
+
+    const total = Number(h) * Number(c);
+    salida.textContent = "La paga que le corresponde es: " +
+        total.toLocaleString("es-AR", {
+            style: "currency",
+            currency: "ARS"
+        });
+}
+</script>
+
 </body>
 </html>
+
